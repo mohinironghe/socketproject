@@ -1,0 +1,40 @@
+<div>
+
+  <button class="button buttonBlue" (click)="privatChat()" type="submit">Private chat</button>
+<button class="button buttonBlue" (click)="groupChat()" type="submit">Group chat</button>
+<button class="button buttonBlue" (click)="createGroup()" type="submit">Create Group</button>
+
+  
+  <div *ngIf="isShow">
+  <div>User List: </div>
+    
+    <select (change)="roomName($event.target.value)">
+        <option value="0">Connect For private chat</option>
+        <option *ngFor="let item of users" value={{item.username}}>
+            {{item.username}}
+        </option>
+    </select>
+</div>
+
+<div *ngIf="showGroup">
+    <div>Group List: </div>
+    
+<select (change)="groupRoomName($event.target.value)">
+    <option value="0">Connect to Group chat</option>
+    <option *ngFor="let item of Groups" value={{item.Groupname}}>
+        {{item.Groupname}}
+    </option>
+</select>
+</div>
+
+<div *ngIf="create" class="form" >
+        <div class="login" >
+          <form class="login-container">
+            <h1>createGroup</h1>
+            <input type="text"  class="form-control" [(ngModel)]="groupname" name="groupname" placeholder="Enter Group name" required autofocus>
+            
+            <button class="button buttonBlue" (click)="Group()" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+</div>

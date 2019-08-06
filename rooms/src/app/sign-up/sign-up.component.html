@@ -1,0 +1,28 @@
+<div class="form">
+    <div class="login">
+      <form class="login-container">
+        <h1 class="h3 mb-3 font-weight-normal">Sign-Up</h1>
+        <div *ngIf="usernameIsEmpty" class="alert alert-danger">
+          Username is required
+        </div>
+        <div *ngIf="emailIsEmpty" class="alert alert-danger">
+          Email is required
+        </div>
+        <div *ngIf="passwordIsEmpty" class="alert alert-danger">
+          Password is required
+        </div>
+        <!-- <label for="inputEmail" class="sr-only">Username</label> -->
+        <input type="text" id="name"  class="form-control" [(ngModel)]="username" name="username" placeholder="Username" required autofocus>
+  
+        <!-- <label for="inputEmail" class="sr-only">Email address</label> -->
+        <input type="email" id="inputEmail" class="form-control" [(ngModel)]="email" name="email" placeholder="Email address" required autofocus>
+  
+        <!-- <label for="inputPassword" class="sr-only">Password</label> -->
+        <input type="password" id="inputPassword" class="form-control" [(ngModel)]="password" name="password" placeholder="Password" required>
+  
+        <div class="checkbox mb-3">
+        </div>
+        <button class="button buttonBlue" (click)="submitForm()" type="submit">Sign up</button>
+      </form>
+    </div>
+  </div>

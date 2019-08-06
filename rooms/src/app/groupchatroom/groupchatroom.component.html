@@ -1,0 +1,16 @@
+<p>groupchatroom works!</p>
+<div id="chat-room" class="login" >
+        <h2>{{ username }}</h2>
+        <!-- <span><i *ngIf="isTyping" class="isTyping">typing...</i></span> -->
+        <form class="login-container"> 
+        <input [(ngModel)]="message" name="message" type="text" placeholder="Message" />            
+        <button id="send" (click)="sendMessage()" class="button buttonBlue">Send</button>   
+        <button id="send" (click)="LogOut()" class="button buttonBlue">LogOut</button>   
+    </form> 
+        <div id="chat-window" class="login-container">
+            <div *ngFor="let item of response">
+                <p [class.userMessage] = "item.user == user" [class.secUserMessage]="item.user != user">{{item.user}}:{{ item.message }}</p>                
+            </div>
+        </div>
+        
+    </div>

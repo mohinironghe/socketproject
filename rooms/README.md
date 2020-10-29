@@ -8,6 +8,9 @@
 1)click on private chat 
 2)connect for private chat
 3)select from dropdown
+
+
+
 #group chat
 1)create group 
 2)click on group chat

@@ -66,11 +66,18 @@ socket.on('disconnect', function(){
 
     socket.on('message',(data)=>{
         console.log(data);
-        io.in(data.room).emit('new message',{user:data.user,message:data.message});
-        chatRooms.update({name:data.room},{ $push:{messages:{user:data.user,message:data.message}}},function(err,doc){
+        io.in(data.room).emit('new message',{user:data.user,message:data.message,sendOn:Date.now()});
+        chatRooms.update({name:data.room},{ $push:{messages:{user:data.user,message:data.message,sendOn:Date.now()}}},function(err,doc){
        if(err) throw err;
        console.log(doc.body);
-       
+       User.update({username:data.sender,'friendList.userName':data.user},{lastSeen:Date.now(),$set:{'friendList.$.lastMessage':data.message,'friendList.$.sendOn':Date.now()}},function(err1,doc1){
+           if(err1) console.log(err1);
+           console.log(doc1)
+        User.update({username:data.user,'friendList.userName':data.sender},{ $set:{'friendList.$.lastMessage':data.message,'friendList.$.sendOn':Date.now()}},function(err,doc){
+            if(err) console.log(err);
+            console.log(doc)
+        })   
+    })
         });
     });
     socket.on('typing', (data) => {
@@ -124,7 +131,7 @@ socket2.on('groupmessage',(data)=>{
     io.in(data.room).emit('new group message',{user:data.user,message:data.message});
     groupRooms.update({Groupname:data.room},{ $push:{messages:{user:data.user,message:data.message}}},function(err,doc){
    if(err) throw err;
-//    console.log(doc);
+   console.log(doc);
    
     });
 });
@@ -188,7 +195,7 @@ app.post('/login', (req,res) => {
   });
   // Route for getting all the users
 app.get('/user', (req, res, next) => {
-    User.find({}, {username: 1, email: 1, _id: 0},(err, users) => {
+    User.find({},(err, users) => {
         if(err) {
             res.send(err);
         }
@@ -208,25 +215,33 @@ app.get('/user', (req, res, next) => {
   });
 
   app.post('/createGroup',(req,res,next) =>{
-      console.log(req);
+      console.log(req.body);
       console.log(req.body.groupname);
     //   console.log(req.body.data);
+
     groupRooms.find({},function(err,Users) {
         if(err){
             console.log(err);
             return res.status(500).send(err);
         }else{
+            var isPresent = false;
        Users.forEach(user =>{
-        if(user.Groupname === req.body.groupname){
+           console.log(user)
+        if(user.Groupname === req.body.groupname.groupname){
             isPresent = true;
         }
         else{
             isPresent = false;
+            var group = new groupRooms({
+                Groupname:req.body.groupname.groupname,
+                creater:req.body.groupname.creater
+            })
+            var save = group.save();
         }
         
 
        });
-       return res.status(201).send({isPresent});
+       return res.status(200).send({isPresent});
     }
  });
  });
@@ -251,7 +266,24 @@ app.get('/user', (req, res, next) => {
         return res.status(201).send(groups);
     });
 });
-
+app.post('/addFriend', (req, res, next) => {
+    User.update({username:req.body.id},{$push:{friendList:{userName:req.body.userName,userId:req.body.friendId}}},(err, groups) => {
+        if(err) {
+            return res.status(500).send(err);
+        }
+        
+        return res.status(200).send('user added Successfully');
+    });
+});
+app.get('/getFriendList/:name',(req,res,next)=>{
+    User.findOne({username:req.params.name},(err, users) => {
+        if(err) {
+            return res.status(500).send(err);
+        }
+        
+        return res.status(200).send(users);
+    });
+})
 app.get('/', (req, res, next) => {
     res.send('Welcome to the express server...');
 });

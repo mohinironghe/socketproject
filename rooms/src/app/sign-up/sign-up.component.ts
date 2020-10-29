@@ -48,7 +48,6 @@ export class SignUpComponent implements OnInit {
         password: this.password
       };
       this.userService.saveUser(user).subscribe(response => {
-        console.log(response);
         this.res = response;
         if(response){
         if(this.res.user_already_signed_up ==  true){
@@ -62,6 +61,8 @@ export class SignUpComponent implements OnInit {
       });
     }
   }
-
+  Login(){
+    this.router.navigate(['/login']);
+  }
 
 }

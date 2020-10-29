@@ -18,6 +18,16 @@ export class UserService {
     // headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:3000/login', user);
   }
+  addFriend(user) {
+    // const headers = new Headers();
+    // headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/addFriend', user);
+  }
+  getFriendList(userName) {
+    return this.http.get('http://localhost:3000/getFriendList/' + userName);
+  }
+  
+ 
 
   loggedIn() {
     // const user = JSON.parse(localStorage.getItem('user'));

@@ -12,7 +12,10 @@ const routes: Routes = [
   {path: 'sign-up', component: SignUpComponent},
   {path: 'chatroom/:user/:room', component: ChatroomComponent},
   {path: 'groupchatroom/:user/:room', component: GroupchatroomComponent},
-  {path: 'user/:name', component: UserComponent}
+  {path: 'user/:name', component: UserComponent},
+  {
+    path:'whatsup',loadChildren:'./whatsup-chat/whatsup-chat.module#WhatsupChatModule'
+  }
 
 ];
 

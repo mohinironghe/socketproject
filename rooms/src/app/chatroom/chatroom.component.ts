@@ -44,9 +44,7 @@ export class ChatroomComponent implements OnInit {
     });
   }
   sendMessage() {
-    console.log(this.user);
-   console.log(this.chatroom);
-   console.log(this.message);
+
     this.webSocketService.sendMessage({room: this.chatroom, user: this.user, message: this.message});
     this.message = '';
   }

@@ -23,14 +23,11 @@ export class LoginComponent implements OnInit {
       password: this.password
     };
     this.userService.login(user).subscribe(response => {
-      console.log(response);
       this.res = response;
       if (this.res.isPresent === true) {
       if(this.res.correctPassword == true){
-        console.log(this.res.correctPassword);
         localStorage.setItem('user', this.res.user.username);
         alert('succeesfully login');
-        console.log(this.username);
         this.router.navigate(['/user',this.username]);
       }else{
         alert('incorrect password');
@@ -41,5 +38,8 @@ export class LoginComponent implements OnInit {
       
     });
   }
+  signUp(){
+    this.router.navigate(['']);
 
+  }
 }

@@ -9,6 +9,7 @@ import { WebsocketService } from './../websocket.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+  selectedValue: any;
 users;
 username;
 chatroom;
@@ -27,28 +28,25 @@ create:boolean = false;
     this.currentUser= this.route.snapshot.paramMap.get('name');
 
     this.userService.getUsers().subscribe(response =>{
-      console.log(response);
       this.users = response;
-      console.log(this.users);
     })
   }
   roomName(name){
     this.username = name;
-    console.log(this.username);
-    
-   
-    console.log(this.currentUser);
-    if ( this.currentUser < this.username) {
+    //check which string is less than it check charecter by charecter
+    if (this.currentUser < this.username) {
       this.chatroom = this.username.concat(this.currentUser);
-      console.log(this.chatroom);
     } else{
       this.chatroom = this.currentUser.concat(this.username);
-      console.log(this.chatroom);
     }
   
     // this.webSocketService.joinRoom({user: this.currentUser,room:this.chatroom});
     this.router.navigate(['/chatroom',this.currentUser,this.chatroom ]);
   
+  }
+  addFriend(){
+    this.userService.addFriend({id:this.currentUser,friendId:this.selectedValue._id,userName:this.selectedValue.username}).subscribe((res)=>{
+    })
   }
   privatChat(){
     this.isShow = !this.isShow;
@@ -57,15 +55,16 @@ create:boolean = false;
     this.showGroup = !this.showGroup;
     this.userService.getGroup().subscribe(res =>{
       this.Groups = res;
-      console.log(this.Groups);
     })
   }
   groupRoomName(event){
     this.joinGroup = event;
-    console.log(this.joinGroup);
     // this.currentUser= this.route.snapshot.paramMap.get('name');
-    console.log(this.currentUser);
     this.router.navigate(['/groupchatroom',this.currentUser,this.joinGroup ]);
+
+  }
+  WhatsAppChat(){
+    this.router.navigate(['/whatsup/users',this.currentUser]);
 
   }
   createGroup(){
@@ -73,11 +72,8 @@ create:boolean = false;
   }
   Group(){
     this.currentUser= this.route.snapshot.paramMap.get('name');
-   console.log(this.groupname);
-    console.log(this.currentUser);
-    this.webSocketService.validateGroupName(this.groupname).subscribe(Response =>{
+    this.webSocketService.validateGroupName({creater: this.currentUser,groupname:this.groupname}).subscribe(Response =>{
      this.resValue = Response;
-     console.log(this.resValue);
      if(this.resValue.isPresent === true){
       alert('groupname already taken');
      }else if(this.resValue.isPresent === false){

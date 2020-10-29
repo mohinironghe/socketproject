@@ -3,6 +3,7 @@
   <button class="button buttonBlue" (click)="privatChat()" type="submit">Private chat</button>
 <button class="button buttonBlue" (click)="groupChat()" type="submit">Group chat</button>
 <button class="button buttonBlue" (click)="createGroup()" type="submit">Create Group</button>
+<button class="button buttonBlue" (click)="WhatsAppChat()" type="submit">Whats Up Chat</button>
 
   
   <div *ngIf="isShow">
@@ -16,6 +17,17 @@
     </select>
 </div>
 
+<div>
+    <div>Add Friend : </div>
+      
+      <select  [(ngModel)]="selectedValue">
+          <option value="0">Choose Friend</option>
+          <option *ngFor="let item of users" [ngValue]=item>
+              {{item.username}}
+          </option>
+      </select>
+      <button class="button buttonBlue" type="submit" (click)="addFriend()" >Add Friend</button>
+  </div>
 <div *ngIf="showGroup">
     <div>Group List: </div>
     

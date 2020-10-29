@@ -4,6 +4,16 @@
 3)add friends
 4)than go to whatup chat button
 
+#private chat app 
+1)click on private chat 
+2)connect for private chat
+3)select from dropdown
+#group chat
+1)create group 
+2)click on group chat
+3)select group from dropdown
+4)connect
+
 # Rooms
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.2.

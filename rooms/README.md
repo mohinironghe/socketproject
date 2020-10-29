@@ -1,8 +1,8 @@
 #process for whatup chat
-first signup 
-sigin
-add friends
-than go to whatup chat button
+1)first signup 
+2)sigin
+3)add friends
+4)than go to whatup chat button
 
 # Rooms
 
